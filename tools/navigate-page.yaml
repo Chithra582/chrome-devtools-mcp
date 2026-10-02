@@ -1,0 +1,17 @@
+name: navigate-page
+description: Navigates the target browser page to a specified URL with configurable load conditions.
+input_schema:
+  type: object
+  properties:
+    url:
+      type: string
+      description: The URL to navigate the page to.
+    page_id:
+      type: string
+      description: Target page identifier (or omit to target active page).
+    wait_until:
+      type: string
+      description: Navigation wait condition ('load', 'domcontentloaded', 'networkidle0').
+      default: "load"
+  required:
+    - url

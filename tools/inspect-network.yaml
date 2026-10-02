@@ -1,0 +1,17 @@
+name: inspect-network
+description: Retrieves captured HTTP network requests and responses for the active browser page session.
+input_schema:
+  type: object
+  properties:
+    page_id:
+      type: string
+      description: Target page identifier.
+    filter_type:
+      type: string
+      description: Optional resource type filter ('xhr', 'fetch', 'script', 'stylesheet', 'image', 'document').
+    max_entries:
+      type: integer
+      description: Maximum number of entries to return.
+      default: 50
+  required:
+    - page_id

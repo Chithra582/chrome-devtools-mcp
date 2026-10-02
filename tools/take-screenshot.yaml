@@ -1,0 +1,18 @@
+name: take-screenshot
+description: Captures a visual screenshot of the current page viewport or entire scrollable document.
+input_schema:
+  type: object
+  properties:
+    page_id:
+      type: string
+      description: Target page identifier.
+    full_page:
+      type: boolean
+      description: Whether to capture the full scrollable page.
+      default: false
+    file_path:
+      type: string
+      description: Local file path where the PNG screenshot will be saved.
+  required:
+    - page_id
+    - file_path

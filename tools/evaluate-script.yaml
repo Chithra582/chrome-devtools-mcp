@@ -1,0 +1,18 @@
+name: evaluate-script
+description: Evaluates a JavaScript expression within the execution context of the target browser page.
+input_schema:
+  type: object
+  properties:
+    expression:
+      type: string
+      description: The JavaScript code or expression to evaluate.
+    page_id:
+      type: string
+      description: Target page identifier.
+    timeout_ms:
+      type: integer
+      description: Evaluation timeout in milliseconds.
+      default: 30000
+  required:
+    - expression
+    - page_id

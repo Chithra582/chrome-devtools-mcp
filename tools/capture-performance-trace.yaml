@@ -1,0 +1,18 @@
+name: capture-performance-trace
+description: Records a Chrome DevTools performance trace to measure Core Web Vitals and profile frame rendering.
+input_schema:
+  type: object
+  properties:
+    page_id:
+      type: string
+      description: Target page identifier.
+    duration_ms:
+      type: integer
+      description: Duration to record the trace in milliseconds.
+      default: 5000
+    file_path:
+      type: string
+      description: Local file path where the trace JSON artifact will be saved.
+  required:
+    - page_id
+    - file_path
