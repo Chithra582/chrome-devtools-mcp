@@ -1,8 +1,8 @@
 # EXPLAINABILITY.md
 
-This document explains the internal mechanisms, data lineage, operational boundaries, and governance framework of **# Explainability & Decision Transparency Report** (`chrome-devtools-mcp`) in accordance with the **OpenGAP v0.1.0** specification for the **HiDevs GitAgent Passport** clearance pipeline.
+This document explains the internal mechanisms, data lineage, operational boundaries, and governance framework of **Chrome DevTools MCP** (`chrome-devtools-mcp`) in accordance with the **OpenGAP v0.1.0** specification for the **HiDevs GitAgent Passport** clearance pipeline.
 
-> **Agent Name:** # Explainability & Decision Transparency Report (`chrome-devtools-mcp`)  
+> **Agent Name:** Chrome DevTools MCP (`chrome-devtools-mcp`)  
 > **Specification:** OpenGAP v0.1.0  
 > **Category / Domain:** Developer Tools / Browser Automation, Web Debugging & Chrome DevTools Protocol  
 > **Compliance Standard:** OpenGAP Checkpoint 2 (Explainability & Decision Governance), OWASP LLM Top 10, MITRE ATLAS  
@@ -11,7 +11,7 @@ This document explains the internal mechanisms, data lineage, operational bounda
 
 ## How the Agent Decides
 
-# Explainability & Decision Transparency Report operates via a deterministic five-stage operational pipeline.
+The agent inspects, controls, and diagnoses browser pages through a deterministic, 5-stage execution pipeline.
 
 ### 1. Decision Architecture
 
@@ -52,7 +52,6 @@ The runtime intake, state classification, evaluation, and execution tracking ope
 
 ### 2. Decision Logic & Routing Formulations
 
-Scoring
 Target element localization and interaction scoring across parsed accessibility nodes rely on a structured affinity formulation:
 
 $$S_{\text{node}}(n) = w_1 \cdot \text{TextMatch}(\text{query}, \text{label}(n)) + w_2 \cdot \text{RoleWeight}(n) + w_3 \cdot \text{Visibility}(n) - w_4 \cdot \text{Depth}(n)$$
@@ -71,29 +70,31 @@ Where metrics with $S_{\text{perf}}(m) > 1.0$ receive immediate remediation prio
 
 ### 3. Thresholding & Refusal Decision Criteria
 
-# Explainability & Decision Transparency Report enforces strict operational boundaries and deterministic refusal thresholds:
-- **Refusal on ERR_DISALLOWED_NAVIGATION_SCHEME**: **Restricted Browser Scheme** halts execution with code `ERR_DISALLOWED_NAVIGATION_SCHEME`.
-- **Refusal on ERR_LOCAL_FILE_ACCESS_DENIED**: **Local Filesystem Access** halts execution with code `ERR_LOCAL_FILE_ACCESS_DENIED`.
-- **Refusal on ERR_SCRIPT_EVALUATION_TIMEOUT**: **Script Execution Timeout** halts execution with code `ERR_SCRIPT_EVALUATION_TIMEOUT`.
-- **Refusal on ERR_TARGET_PAGE_NOT_FOUND**: **Target Page Not Found** halts execution with code `ERR_TARGET_PAGE_NOT_FOUND`.
-- **Refusal on ERR_STALE_ELEMENT_REFERENCE**: **Element UID Obsolete** halts execution with code `ERR_STALE_ELEMENT_REFERENCE`.
+Chrome DevTools MCP enforces strict operational boundaries and deterministic refusal thresholds:
+- **Refusal on ERR_DISALLOWED_NAVIGATION_SCHEME**: Restricted Browser Scheme (`chrome://*`, `chrome-extension://*`) halts execution with code `ERR_DISALLOWED_NAVIGATION_SCHEME`.
+- **Refusal on ERR_LOCAL_FILE_ACCESS_DENIED**: Local Filesystem Access (`file://*` without flag) halts execution with code `ERR_LOCAL_FILE_ACCESS_DENIED`.
+- **Refusal on ERR_SCRIPT_EVALUATION_TIMEOUT**: Script Execution Timeout ($> 30,000$ ms) halts execution with code `ERR_SCRIPT_EVALUATION_TIMEOUT`.
+- **Refusal on ERR_TARGET_PAGE_NOT_FOUND**: Target Page Not Found (Invalid `pageId`) halts execution with code `ERR_TARGET_PAGE_NOT_FOUND`.
+- **Refusal on ERR_STALE_ELEMENT_REFERENCE**: Element UID Obsolete (Node removed from DOM) halts execution with code `ERR_STALE_ELEMENT_REFERENCE`.
 
 ### 4. Fallback Decision Mechanism
 
 Continuous operational stability is maintained through layered fault recovery:
+- **Tier 1 (Automated Snapshot Refresh)**: If an interaction fails due to a stale element UID, the agent automatically retries with a freshly captured snapshot.
+- **Tier 2 (Browser Process Restart)**: If the Chrome instance crashes or the CDP WebSocket drops unexpectedly, the daemon relaunches a clean browser process within 1.5 seconds.
+- **Tier 3 (User Inspection Escalation)**: On complex bot detection challenges (Cloudflare Turnstile, reCAPTCHA), the agent displays an onscreen prompt delegating manual verification to the human user.
 - **Model Fallback Cascade**: High-level reasoning and synthesis default to `gemini-2.0-flash` with automatic failover to `gpt-4o` and `claude-3-5-sonnet`.
 
 ### 5. Human-in-the-Loop Governance
 
 Human operators retain sovereign authority over the multi-agent execution lifecycle:
-- **Consequential Action Sign-Off**: Sensitive and consequential actions require operator sign-off.
-- **Offline Ledger Auditing**: Operators can verify execution records and state transitions offline.
+- **Benchmark Trajectory Auditing**: Operators inspect evaluation traces, raw generation tokens, and container logs to verify scoring fidelity.
 
 ---
 
 ## The Data It Uses
 
-# Explainability & Decision Transparency Report operates under strict principles of data minimization, environment isolation, and privacy protection.
+Chrome DevTools MCP operates under strict principles of data minimization, environment isolation, and privacy protection.
 
 ### 1. Ingested Input Data
 
@@ -104,7 +105,8 @@ The framework processes only operational data necessary to perform its functions
 
 ### 2. Configuration & Reference Data
 
-- **Configuration Schemas**: Declarative system policy files.
+- **Web Standards**: W3C DOM, HTML5, CSSOM, ARIA accessibility specification.
+- **Core Web Vitals**: Largest Contentful Paint (LCP), Cumulative Layout Shift (CLS), Interaction to Next Paint (INP).
 
 ### 3. Base Model & Inference Lineage
 
@@ -122,7 +124,7 @@ The framework processes only operational data necessary to perform its functions
 
 ## Limitations
 
-Understanding the operational boundaries and technical constraints of # Explainability & Decision Transparency Report is essential for effective deployment.
+Understanding the operational boundaries and technical constraints of Chrome DevTools MCP is essential for effective deployment.
 
 ### 1. Heavy Memory Consumption During Continuous Profiling
 - **Limitation**: Prolonged performance traces and consecutive heap snapshots consume several gigabytes of RAM.
